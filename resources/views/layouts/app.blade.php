@@ -16,25 +16,18 @@
         rel="stylesheet">
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script src="//unpkg.com/alpinejs" defer></script>
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body class="font-sans antialiased">
-    <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
-        @include('layouts.navigation')
-
-        <!-- Page Heading -->
-        @isset($header)
-            <header class="bg-white dark:bg-gray-800 shadow">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    {{ $header }}
-                </div>
-            </header>
-        @endisset
-
+    <div class="min-h-screen flex">
+        <!-- Page Sidebar -->
+        @include('layouts.sidebar')
         <!-- Page Content -->
-        <main>
+        <main class="flex-1 bg-gray-50">
+            @include('layouts.navigation')
             {{ $slot }}
         </main>
     </div>
