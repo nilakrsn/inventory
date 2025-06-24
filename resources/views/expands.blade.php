@@ -7,31 +7,45 @@
                         <div class="w-1/3"><x-search-bar /></div>
                         <div class="flex-row flex space-x-4 w-2/3 justify-end">
                             <x-date-filter :start-date="$startDate" :end-date="$endDate" />
-                            <x-primary-button @click="$dispatch('open-modal', { name: 'create-category' })">
-                                <ion-icon name="add-outline" class="w-5 h-5 mr-2"></ion-icon> Tambah Kategori
+                            <x-primary-button @click="$dispatch('open-modal', { name: 'create-expands' })">
+                                <ion-icon name="add-outline" class="w-5 h-5 mr-2"></ion-icon> Tambah Pengeluaran
                             </x-primary-button>
                         </div>
                     </div>
                     <!-- create modal-->
-                    <x-modal name="create-category" :show="false">
-                        <div class="p-6" x-data="{ changed: false, name: '' }">
-                            <h2 class="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-100">Tambah Kategori</h2>
-                            <form method="POST" action="{{ route('categories.store') }}">
+                    <x-modal name="create-expands" :show="false">
+                        <div class="p-6" x-data="{ changed: false, users_id: '', desc: '', nominal: '' }">
+                            <h2 class="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-100">Tambah Pengeluaran
+                            </h2>
+                            <form method="POST" action="{{ route('expands.store') }}">
                                 @csrf
+                                <input type="hidden" name="users_id" value="{{ Auth::id() }}">
                                 <div class="mb-4">
-                                    <label class="block text-sm text-gray-700 dark:text-gray-200">Nama</label>
-                                    <input type="text" name="name" x-model="name"
+                                    <label class="block text-sm text-gray-700 dark:text-gray-200">Deskripsi</label>
+                                    <input type="text" name="desc" x-model="desc"
                                         class="mt-1 w-full rounded border-gray-300 dark:bg-gray-700 dark:text-white"
-                                        required @input="changed = name.trim().length > 0">
+                                        required @input="changed = desc.trim().length > 0">
+                                </div>
+                                <div class="mb-4">
+                                    <label class="block text-sm text-gray-700 dark:text-gray-200">Nominal</label>
+                                    <div class="flex mt-1">
+                                        <span
+                                            class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-white h-10">
+                                            Rp
+                                        </span>
+                                        <input type="number" name="nominal" x-model="nominal"
+                                            class="w-full rounded-r-md border border-gray-300 dark:bg-gray-700 dark:text-white h-10 focus:ring-0 focus:border-sky-600"
+                                            required>
+                                    </div>
+
                                 </div>
 
                                 <div class="flex justify-end">
-                                    <button type="button"
-                                        @click="$dispatch('close-modal', { name: 'create-category' })"
+                                    <button type="button" @click="$dispatch('close-modal', { name: 'create-expands' })"
                                         class="mr-2 px-4 py-2 text-sm bg-gray-200 rounded">
                                         Cancel
                                     </button>
-                                    <button type="submit" class="px-4 py-2 text-sm bg-sky-600 text-white rounded"
+                                    <button type="submit" class="px-4 py-2 text-sm bg-sky-900 text-white rounded"
                                         :disabled="!changed" :class="{ 'opacity-50 cursor-not-allowed': !changed }">
                                         Submit
                                     </button>
@@ -62,8 +76,20 @@
                                 </th>
                                 <th class="p-4 border-b ">
                                     <div class="flex items-center space-x-1 justify-center">
-                                        <p class="text-sm leading-none font-semibold">Nama</p>
-                                        <x-sort-filter sort="name" />
+                                        <p class="text-sm leading-none font-semibold">User</p>
+                                        <x-sort-filter sort="users_id" />
+                                    </div>
+                                </th>
+                                <th class="p-4 border-b ">
+                                    <div class="flex items-center space-x-1 justify-center">
+                                        <p class="text-sm leading-none font-semibold">Deskripsi</p>
+                                        <x-sort-filter sort="desc" />
+                                    </div>
+                                </th>
+                                <th class="p-4 border-b ">
+                                    <div class="flex items-center space-x-1 justify-center">
+                                        <p class="text-sm leading-none font-semibold">Nominal</p>
+                                        <x-sort-filter sort="nominal" />
                                     </div>
                                 </th>
 
@@ -75,11 +101,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($categories as $data)
+                            @foreach ($expands as $data)
                                 <tr class="hover:bg-slate-50 border-b border-slate-200">
                                     <td class="p-4 py-5">
                                         <p class="block font-semibold text-sm text-slate-800">
-                                            {{ ($categories->currentPage() - 1) * $categories->perPage() + $loop->iteration }}
+                                            {{ ($expands->currentPage() - 1) * $expands->perPage() + $loop->iteration }}
                                         </p>
                                     </td>
                                     <td class="p-4 py-5">
@@ -88,8 +114,17 @@
                                     <td class="p-4 py-5">
                                         <p class="text-sm text-slate-500">{{ $data->updated_at->format('d-m-Y') }}</p>
                                     </td>
+                                    @foreach ($users as $user)
+                                        <td class="p-4 py-5">
+                                            <p class="text-sm text-slate-500">{{ $user->name }}</p>
+                                        </td>
+                                    @endforeach
                                     <td class="p-4 py-5">
-                                        <p class="text-sm text-slate-500">{{ $data->name }}</p>
+                                        <p class="text-sm text-slate-500">{{ $data->desc }}</p>
+                                    </td>
+                                    <td class="p-4 py-5">
+                                        <p class="text-sm text-slate-500">
+                                            Rp{{ number_format($data->nominal, 0, ',', '.') }}</p>
                                     </td>
                                     <td>
                                         <div class="flex flex-row space-x-1">
@@ -103,37 +138,56 @@
                                                 </x-slot>
                                                 <x-slot name="content">
                                                     <x-dropdown-link
-                                                        @click="$dispatch('open-modal', { name: 'update-category-{{ $data->id }}' })">
+                                                        @click="$dispatch('open-modal', { name: 'update-expands-{{ $data->id }}' })">
                                                         {{ __('Edit') }}
                                                     </x-dropdown-link>
                                                     <x-dropdown-link
-                                                        @click="$dispatch('open-modal', { name: 'delete-category-{{ $data->id }}' })">
+                                                        @click="$dispatch('open-modal', { name: 'delete-expands-{{ $data->id }}' })">
                                                         {{ __('Hapus') }}
                                                     </x-dropdown-link>
                                                 </x-slot>
                                             </x-dropdown>
                                             <!-- update modal-->
-                                            <x-modal name="update-category-{{ $data->id }}" :show="false">
-                                                <div class="p-6" x-data="{ changed: false, name: '{{ $data->name }}' }">
+                                            <x-modal name="update-expands-{{ $data->id }}" :show="false">
+                                                <div class="p-6" x-data="{ changed: false, desc: '{{ $data->desc }}', nominal: '{{ $data->nominal }}' }">
                                                     <h2
                                                         class="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-100 text-left">
-                                                        Edit Kategori
+                                                        Edit Pengeluaran
                                                     </h2>
                                                     <form method="POST"
-                                                        action="{{ route('categories.update', $data->id) }}">
+                                                        action="{{ route('expands.update', $data->id) }}">
                                                         @csrf
                                                         @method('PUT')
+
+                                                        <input type="hidden" name="users_id"
+                                                            value="{{ Auth::id() }}">
+
                                                         <div class="mb-4">
                                                             <label
-                                                                class="block text-sm text-gray-700 dark:text-gray-200 text-left">Nama</label>
-                                                            <input type="text" name="name" x-model="name"
+                                                                class="block text-sm text-gray-700 dark:text-gray-200 text-left">Deskripsi</label>
+                                                            <input type="text" name="desc" x-model="desc"
                                                                 class="mt-1 w-full rounded border-gray-300 dark:bg-gray-700 dark:text-white text-left"
-                                                                required @input="changed = name.trim().length > 0">
+                                                                required @input="changed = desc.trim().length > 0">
+                                                        </div>
+                                                        <div class="mb-4">
+                                                            <label
+                                                                class="block text-sm text-gray-700 dark:text-gray-200 text-left">Nominal</label>
+                                                            <div class="flex mt-1">
+                                                                <span
+                                                                    class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-white h-10">
+                                                                    Rp
+                                                                </span>
+                                                                <input type="number" name="nominal"
+                                                                    x-model="nominal"
+                                                                    class="w-full rounded-r-md border border-gray-300 dark:bg-gray-700 dark:text-white h-10 focus:ring-0 focus:border-sky-600"
+                                                                    required @input="changed = nominal.trim().length > 0">
+                                                            </div>
+
                                                         </div>
 
                                                         <div class="flex justify-end">
                                                             <button type="button"
-                                                                @click="$dispatch('close-modal', { name: 'update-category-{{ $data->id }}' })"
+                                                                @click="$dispatch('close-modal', { name: 'update-expands-{{ $data->id }}' })"
                                                                 class="mr-2 px-4 py-2 text-sm bg-gray-200 rounded">
                                                                 Cancel
                                                             </button>
@@ -148,13 +202,13 @@
                                                 </div>
                                             </x-modal>
                                             <!-- delete modal-->
-                                            <x-modal name="delete-category-{{ $data->id }}" :show="false">
-                                                <div class="p-6" x-data="{ changed: false, name: '{{ $data->name }}' }">
+                                            <x-modal name="delete-expands-{{ $data->id }}" :show="false">
+                                                <div class="p-6" x-data="{ changed: false, desc: '{{ $data->desc }}', nominal: '{{ $data->nominal }}' }">
                                                     <h2
                                                         class="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-100 text-left">
-                                                        Hapus Kategori</h2>
+                                                        Hapus Pengeluaran</h2>
                                                     <form method="POST"
-                                                        action="{{ route('categories.destroy', $data->id) }}">
+                                                        action="{{ route('expands.destroy', $data->id) }}">
                                                         @csrf
                                                         @method('DELETE')
                                                         <input type="hidden" name="id"
@@ -162,12 +216,12 @@
                                                         <p
                                                             class="text-sm text-gray-600 dark:text-gray-400 mb-6 text-left">
                                                             Apa
-                                                            Anda yakin ingin menghapus kategori
-                                                            "{{ $data->name }}"?</p>
+                                                            Anda yakin ingin menghapus Pengeluaran
+                                                            "{{ $data->desc }}"?</p>
                                                         <div class="flex justify-end">
                                                             <button type="button"
                                                                 class="mr-2 px-4 py-2 text-sm bg-gray-200 rounded"
-                                                                @click="$dispatch('close-modal', { name: 'delete-category-{{ $data->id }}' })">
+                                                                @click="$dispatch('close-modal', { name: 'delete-expands-{{ $data->id }}' })">
                                                                 Tidak, Batalkan
                                                             </button>
                                                             <button type="submit"
@@ -186,33 +240,33 @@
                     </table>
                     <div class="flex justify-between items-center px-4 py-3">
                         <div class="text-sm text-slate-500">
-                            Showing <b>{{ $categories->firstItem() }}-{{ $categories->lastItem() }}</b> of
-                            {{ $categories->total() }}
+                            Showing <b>{{ $expands->firstItem() }}-{{ $expands->lastItem() }}</b> of
+                            {{ $expands->total() }}
                         </div>
                         <div class="flex space-x-1">
                             {{-- Previous Button --}}
                             <button
-                                class="px-3 py-1 min-w-9 min-h-9 text-sm font-normal text-slate-500 bg-white border border-slate-200 rounded hover:bg-slate-50 hover:border-slate-400 transition duration-200 ease {{ $categories->onFirstPage() ? 'opacity-50 cursor-not-allowed' : '' }}"
-                                @if (!$categories->onFirstPage()) onclick="window.location='{{ $categories->previousPageUrl() }}'" @endif
-                                {{ $categories->onFirstPage() ? 'disabled' : '' }}>
+                                class="px-3 py-1 min-w-9 min-h-9 text-sm font-normal text-slate-500 bg-white border border-slate-200 rounded hover:bg-slate-50 hover:border-slate-400 transition duration-200 ease {{ $expands->onFirstPage() ? 'opacity-50 cursor-not-allowed' : '' }}"
+                                @if (!$expands->onFirstPage()) onclick="window.location='{{ $expands->previousPageUrl() }}'" @endif
+                                {{ $expands->onFirstPage() ? 'disabled' : '' }}>
                                 Prev
                             </button>
 
                             {{-- Page Numbers --}}
-                            @foreach ($categories->getUrlRange(1, $categories->lastPage()) as $page => $url)
+                            @foreach ($expands->getUrlRange(1, $expands->lastPage()) as $page => $url)
                                 <button
-                                    class="px-3 py-1 min-w-9 min-h-9 text-sm font-normal {{ $categories->currentPage() == $page ? 'text-white bg-sky-900 border-sky-900' : 'text-sky-700 bg-white border-sky-700' }} border rounded hover:bg-slate-200 hover:border-sky-700 transition duration-200 ease"
-                                    @if ($categories->currentPage() != $page) onclick="window.location='{{ $url }}'" @endif
-                                    {{ $categories->currentPage() == $page ? 'disabled' : '' }}>
+                                    class="px-3 py-1 min-w-9 min-h-9 text-sm font-normal {{ $expands->currentPage() == $page ? 'text-white bg-sky-900 border-sky-900' : 'text-sky-700 bg-white border-sky-700' }} border rounded hover:bg-slate-200 hover:border-sky-700 transition duration-200 ease"
+                                    @if ($expands->currentPage() != $page) onclick="window.location='{{ $url }}'" @endif
+                                    {{ $expands->currentPage() == $page ? 'disabled' : '' }}>
                                     {{ $page }}
                                 </button>
                             @endforeach
 
                             {{-- Next Button --}}
                             <button
-                                class="px-3 py-1 min-w-9 min-h-9 text-sm font-normal text-slate-500 bg-white border border-slate-200 rounded hover:bg-slate-50 hover:border-slate-400 transition duration-200 ease {{ !$categories->hasMorePages() ? 'opacity-50 cursor-not-allowed' : '' }}"
-                                @if ($categories->hasMorePages()) onclick="window.location='{{ $categories->nextPageUrl() }}'" @endif
-                                {{ !$categories->hasMorePages() ? 'disabled' : '' }}>
+                                class="px-3 py-1 min-w-9 min-h-9 text-sm font-normal text-slate-500 bg-white border border-slate-200 rounded hover:bg-slate-50 hover:border-slate-400 transition duration-200 ease {{ !$expands->hasMorePages() ? 'opacity-50 cursor-not-allowed' : '' }}"
+                                @if ($expands->hasMorePages()) onclick="window.location='{{ $expands->nextPageUrl() }}'" @endif
+                                {{ !$expands->hasMorePages() ? 'disabled' : '' }}>
                                 Next
                             </button>
                         </div>

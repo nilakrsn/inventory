@@ -3,16 +3,16 @@
         <input
             type="date"
             name="start_date"
-            class="border border-sky-900 text-sky-900 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-sky-200 w-full md:w-auto"
+            class="border border-gray-100 bg-gray-100 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-sky-200 w-full md:w-auto"
             value="{{ $startDate }}"
             placeholder="Start date"
         >
-        <span class="text-sky-900 mx-auto md:mx-0">-</span>
+        <span class= mx-auto md:mx-0">-</span>
         <input
             type="date"
             name="end_date"
             id="end_date"
-            class="border border-sky-900 text-sky-900 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-sky-200 w-full md:w-auto"
+            class="border border-gray-100 bg-gray-100 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-sky-200 w-full md:w-auto"
             value="{{ $endDate }}"
             placeholder="End date"
         >
@@ -29,7 +29,7 @@
                 });
             });
         </script>
-        <a href="{{ url()->current() }}" class="inline-flex items-center px-3 py-3 border border-sky-900 text-sky-900 bg-white rounded-lg text-sm hover:bg-gray-50 transition">
+        <a href="{{ url()->current() }}" class="inline-flex items-center px-3 py-3 border border-gray-100 bg-gray-100 rounded-lg text-sm hover:bg-gray-50 transition">
             <ion-icon name="refresh-outline" class="w-5 h-5"></ion-icon>
         </a>
     </div>

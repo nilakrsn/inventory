@@ -56,6 +56,6 @@ class User extends Authenticatable
     }
     public function expands()
     {
-        return $this->hasMany(Expand::class, 'user_id');
+        return $this->hasMany(Expand::class, 'users_id');
     }
 }

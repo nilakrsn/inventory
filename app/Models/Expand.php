@@ -7,12 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Expand extends Model
 {
     protected $fillable = [
-        'user_id',
+        'users_id',
         'desc',
         'nominal'
     ];
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'users_id');
     }
 }

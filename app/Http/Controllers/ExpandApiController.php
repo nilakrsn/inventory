@@ -35,6 +35,7 @@ class ExpandApiController extends Controller
     {
         try {
             $data = Expand::create([
+                'users_id' => $request->users_id,
                 'desc' => $request->desc,
                 'nominal' => $request->nominal
             ]);
@@ -90,7 +91,9 @@ class ExpandApiController extends Controller
             }
 
             $data->update([
-                'name' => $request->name
+                'users_id' => $request->users_id,
+                'desc' => $request->desc,
+                'nominal' => $request->nominal
             ]);
 
             $data->refresh();

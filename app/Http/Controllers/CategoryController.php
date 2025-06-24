@@ -16,7 +16,7 @@ class CategoryController extends Controller
         $endDate = $request->input('end_date');
         $sort = $request->input('sort', 'created_at'); 
         $direction = $request->input('direction', 'desc'); 
-
+        $queryText = $request->input('query');
 
         $query = Category::query();
 
@@ -25,6 +25,9 @@ class CategoryController extends Controller
         }
         if ($endDate) {
             $query->whereDate('created_at', '<=', $endDate);
+        }
+        if ($queryText) {
+            $query->where('name', 'like', '%' . $queryText . '%');
         }
         if ($sort === 'no') {
             $query->orderBy('id', $direction);
@@ -38,7 +41,7 @@ class CategoryController extends Controller
             $query->orderBy('created_at', 'desc');
         }
 
-        $categories = $query->paginate(5);
+        $categories = $query->paginate(5)->appends($request->all());
 
         return view('categories', compact('categories', 'startDate', 'endDate'));
     }

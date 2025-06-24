@@ -12,7 +12,7 @@
             <x-sidebar-link href="{{ route('categories') }}" icon="grid" :active="request()->routeIs('categories')">
                 Kategori
             </x-sidebar-link>
-            <x-sidebar-link href="{{ route('dashboard') }}" icon="cube" :active="request()->routeIs('welcome')">
+            <x-sidebar-link href="{{ route('products') }}" icon="cube" :active="request()->routeIs('products')">
                 Produk
             </x-sidebar-link>
             <x-sidebar-link href="{{ route('dashboard') }}" icon="arrow-down-circle" :active="request()->routeIs('welcome')">
@@ -21,10 +21,10 @@
             <x-sidebar-link href="{{ route('dashboard') }}" icon="arrow-up-circle" :active="request()->routeIs('welcome')">
                 Barang Keluar
             </x-sidebar-link>
-            <x-sidebar-link href="{{ route('dashboard') }}" icon="cash" :active="request()->routeIs('welcome')">
+            <x-sidebar-link href="{{ route('dashboard') }}" icon="cash" :active="request()->routeIs('dashboard')">
                 Pemasukan
             </x-sidebar-link>
-            <x-sidebar-link href="{{ route('dashboard') }}" icon="card" :active="request()->routeIs('welcome')">
+            <x-sidebar-link href="{{ route('expands') }}" icon="card" :active="request()->routeIs('expands')">
                 Pengeluaran
             </x-sidebar-link>
         </div>

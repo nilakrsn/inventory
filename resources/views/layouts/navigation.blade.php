@@ -5,6 +5,8 @@
             $titles = [
                 'dashboard' => 'Dashboard',
                 'categories' => 'Kategori',
+                'products' => 'Produk',
+                'expands' => 'Pengeluaran',
                 
             ];
             $currentRoute = Route::currentRouteName();
