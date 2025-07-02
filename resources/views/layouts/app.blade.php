@@ -22,13 +22,16 @@
 </head>
 
 <body class="font-sans antialiased">
-    <div class="min-h-screen flex">
+    @include('layouts.sidebar')
+    <div class="ml-64 min-h-screen bg-gray-50">
         <!-- Page Sidebar -->
-        @include('layouts.sidebar')
+        
         <!-- Page Content -->
         <main class="flex-1 bg-gray-50">
             @include('layouts.navigation')
-            {{ $slot }}
+            <div class="p-6 overflow-x-auto"> 
+                {{ $slot }}
+            </div>
         </main>
     </div>
 </body>

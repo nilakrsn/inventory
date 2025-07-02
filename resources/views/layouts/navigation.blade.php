@@ -1,4 +1,4 @@
-<nav class="border-b border-gray-100">
+<nav class="ml-6 border-b border-gray-100">
     <div class="flex flex-row h-16 justify-between items-center bg-white ">
         <div class="px-6 font-semibold text-lg text-sky-900">
             @php

@@ -3,8 +3,6 @@
 use App\Http\Controllers\CategoryApiController;
 use App\Http\Controllers\ExpandApiController;
 use App\Http\Controllers\ProductApiController;
-use App\Http\Controllers\StockInApiController;
-use App\Http\Controllers\StockOutApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -30,16 +28,3 @@ Route::get("/expand/{id}", [ExpandApiController::class, 'show']);
 Route::put("/expand/update/{id}", [ExpandApiController::class, 'update']);
 Route::delete("/expand/delete/{id}", [ExpandApiController::class, 'destroy']);
 
-//stock in
-Route::get("/stockin", [StockInApiController::class, 'index']);
-Route::post("/stockin/create", [StockInApiController::class, 'store']);
-Route::get("/stockin/{id}", [StockInApiController::class, 'show']);
-Route::put("/stockin/update/{id}", [StockInApiController::class, 'update']);
-Route::delete("/stockin/delete/{id}", [StockInApiController::class, 'destroy']);
-
-//stock out
-Route::get("/stockout", [StockOutApiController::class, 'index']);
-Route::post("/stockout/create", [StockOutApiController::class, 'store']);
-Route::get("/stockout/{id}", [StockOutApiController::class, 'show']);
-Route::put("/stockout/update/{id}", [StockOutApiController::class, 'update']);
-Route::delete("/stockout/delete/{id}", [StockOutApiController::class, 'destroy']);

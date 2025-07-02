@@ -1,9 +1,9 @@
-<aside class="flex flex-col w-1/6 h-screen border-r border-gray-100">
+<aside class="lex flex-col w-1/6 h-screen border-r border-gray-100 fixed left-0 top-0 bg-white z-10">
     <div class="flex items-center border-b border-gray-100 px-6 py-2">
         <img src="image/air.png" class="w-12 mr-3" alt="Logo">
         <span class="ml-2 font-semibold text-xl text-sky-900">Inventory</span>
     </div>
-    <nav class="flex flex-col flex-1">
+    <nav class="flex flex-col flex-1"> 
         <span class="text-gray-400 px-6 py-4 pt-6 text-sm">MAIN MENU</span>
         <div class="flex flex-col px-6">
             <x-sidebar-link href="{{ route('dashboard') }}" icon="home" :active="request()->routeIs('dashboard')">

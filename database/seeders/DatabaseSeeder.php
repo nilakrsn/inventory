@@ -5,8 +5,10 @@ namespace Database\Seeders;
 use App\Models\Category;
 use App\Models\Expand;
 use App\Models\Product;
+use App\Models\Stock;
 use App\Models\StockIn;
 use App\Models\StockOut;
+use App\Models\Transaction;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -52,18 +54,27 @@ class DatabaseSeeder extends Seeder
             'status' => 'active',
         ]);
 
-        StockIn::create([
+        Stock::create([
             'users_id' => 1,
             'products_id' => 2,
             'quantity' => 10,
             'cons_price' => 5000,
+            'selling_price' => 7000,
         ]);
 
-        StockOut::create([
+        Transaction::create([
             'users_id' => 1,
-            'products_id' => 2,
+            'stock_id' => 1,
+            'quantity' => 2,
+            'type' => 'in',
+            'total_price' => 24000
+        ]);
+        Transaction::create([
+            'users_id' => 1,
+            'stock_id' => 1,
             'quantity' => 1,
-            'selling_price' => 7000,
+            'type' => 'out',
+            'total_price' => 12000
         ]);
 
         Expand::create([

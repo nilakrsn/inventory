@@ -46,14 +46,17 @@ class User extends Authenticatable
         ];
     }
 
-    public function stockIns()
+    public function transactions()
     {
-        return $this->hasMany(StockIn::class, 'users_id');
+        return $this->hasMany(Transaction::class, 'users_id');
     }
-    public function stockOuts()
+
+    public function stock()
     {
-        return $this->hasMany(StockOut::class, 'users_id');
+        return $this->hasMany(Stock::class, 'users_id');
     }
+
+    
     public function expands()
     {
         return $this->hasMany(Expand::class, 'users_id');
