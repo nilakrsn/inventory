@@ -9,25 +9,22 @@ class Product extends Model
     protected $fillable = [
         'name',
         'barcode',
+        'image',
         'categories_id',
         'cons_price',
         'selling_price',
-        'status'
+        'status',
+        'expired'
     ];
 
     public function category()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Category::class,'categories_id');
     }
 
-    public function stockIns()
+    public function stocks()
     {
-        return $this->hasMany(StockIn::class);
+        return $this->hasMany(Stock::class, 'products_id');
     }
-
-
-    public function stockOuts()
-    {
-        return $this->hasMany(StockOut::class);
-    }
+    
 }

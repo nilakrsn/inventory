@@ -14,6 +14,7 @@ class Transaction extends Model
         'type',
         'total_price'
     ];
+    
     public function stock()
     {
         return $this->belongsTo(Stock::class, 'stock_id');

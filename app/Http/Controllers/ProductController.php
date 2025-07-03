@@ -15,8 +15,8 @@ class ProductController extends Controller
     {
         $startDate = $request->input('start_date');
         $endDate = $request->input('end_date');
-        $sort = $request->input('sort', 'created_at'); 
-        $direction = $request->input('direction', 'desc'); 
+        $sort = $request->input('sort', 'created_at');
+        $direction = $request->input('direction', 'desc');
         $queryText = $request->input('query');
 
         $query = Product::query();
@@ -30,9 +30,9 @@ class ProductController extends Controller
             $query->whereDate('created_at', '<=', $endDate);
         }
         if ($queryText) {
-            $query->where(function($q) use ($queryText) {
+            $query->where(function ($q) use ($queryText) {
                 $q->where('name', 'like', '%' . $queryText . '%')
-                  ->orWhere('barcode', 'like', '%' . $queryText . '%');
+                    ->orWhere('barcode', 'like', '%' . $queryText . '%');
             });
         }
         if ($sort === 'no') {
@@ -49,7 +49,7 @@ class ProductController extends Controller
 
         $products = $query->paginate(5)->appends($request->all());
 
-        return view('products', compact('products', 'startDate', 'endDate','categories'));
+        return view('products', compact('products', 'startDate', 'endDate', 'categories'));
     }
 
     /**
@@ -65,16 +65,20 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-         try {
+        try {
+            $imageName = null;
+            if ($request->hasFile('image')) {
+                $imageName = $request->file('image')->store('' ,'public');
+            }
             Product::create([
                 'name' => $request->name,
                 'barcode' => $request->barcode,
-                'image' => $request->file('image') ? $request->file('image')->store('products', 'public') : null,
+                'image' => $imageName,
                 'categories_id' => $request->categories_id,
                 'cons_price' => $request->cons_price,
                 'selling_price' => $request->selling_price,
                 'status' => 'active',
-                'expired' => $request->expired ? date('Y-m-d', strtotime($request->expired)) : null,
+                'expired' => $request->expired,
             ]);
 
             return redirect()->route('products')->with('success', 'Product created successfully');
@@ -94,10 +98,7 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
-    {
-        
-    }
+    public function edit(string $id) {}
 
     /**
      * Update the specified resource in storage.

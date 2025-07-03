@@ -21,18 +21,13 @@
             <x-sidebar-link href="{{ route('dashboard') }}" icon="arrow-up-circle" :active="request()->routeIs('welcome')">
                 Barang Keluar
             </x-sidebar-link>
-            <x-sidebar-link href="{{ route('dashboard') }}" icon="cash" :active="request()->routeIs('dashboard')">
-                Pemasukan
-            </x-sidebar-link>
-            <x-sidebar-link href="{{ route('expands') }}" icon="card" :active="request()->routeIs('expands')">
-                Pengeluaran
+             <x-sidebar-link href="{{ route('dashboard') }}" icon="document" :active="request()->routeIs('welcome')">
+                Report
             </x-sidebar-link>
         </div>
         <span class="text-gray-400 px-6 py-3 pt-6 text-sm">OTHER MENU</span>
         <div class="flex flex-col px-6">
-            <x-sidebar-link href="{{ route('dashboard') }}" icon="document" :active="request()->routeIs('welcome')">
-                Report
-            </x-sidebar-link>
+           
             <form method="POST" action="{{ route('logout') }}">
                             @csrf
             <x-sidebar-link href="{{ route('logout') }}"
