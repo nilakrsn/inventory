@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Stock;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -19,32 +22,54 @@ class ProductController extends Controller
         $direction = $request->input('direction', 'desc');
         $queryText = $request->input('query');
 
-        $query = Product::query();
-
         $categories = Category::all();
 
+        $query = DB::table('stocks')
+            ->join('products', 'stocks.products_id', '=', 'products.id')
+            ->leftJoin('categories', 'products.categories_id', '=', 'categories.id')
+            ->whereNull('stocks.deleted_at') 
+            ->select(
+                'stocks.id as stock_id',
+                'stocks.users_id',
+                'stocks.quantity',
+                'stocks.created_at as stock_created_at',
+                'products.id as product_id',
+                'products.name as product_name',
+                'products.categories_id',
+                'products.barcode',
+                'products.image',
+                'categories.name as category_name',
+                'products.cons_price',
+                'products.selling_price',
+                'products.status',
+                'products.expired'
+
+            );
+
         if ($startDate) {
-            $query->whereDate('created_at', '>=', $startDate);
+            $query->whereDate('stocks.created_at', '>=', $startDate);
         }
         if ($endDate) {
-            $query->whereDate('created_at', '<=', $endDate);
+            $query->whereDate('stocks.created_at', '<=', $endDate);
         }
         if ($queryText) {
             $query->where(function ($q) use ($queryText) {
-                $q->where('name', 'like', '%' . $queryText . '%')
-                    ->orWhere('barcode', 'like', '%' . $queryText . '%');
+                $q->where('products.name', 'like', '%' . $queryText . '%')
+                    ->orWhere('products.barcode', 'like', '%' . $queryText . '%');
             });
         }
+
+        // Sorting
         if ($sort === 'no') {
-            $query->orderBy('id', $direction);
+            $query->orderBy('stocks.id', $direction);
         } elseif ($sort === 'created_at') {
-            $query->orderBy('created_at', $direction);
+            $query->orderBy('stocks.created_at', $direction);
         } elseif ($sort === 'updated_at') {
-            $query->orderBy('updated_at', $direction);
+            $query->orderBy('stocks.updated_at', $direction);
         } elseif ($sort === 'name') {
-            $query->orderBy('name', $direction)->orderBy('barcode', $direction);
+            $query->orderBy('products.name', $direction)->orderBy('products.barcode', $direction);
         } else {
-            $query->orderBy('created_at', 'desc');
+            $query->orderBy('stocks.created_at', 'desc');
         }
 
         $products = $query->paginate(5)->appends($request->all());
@@ -68,9 +93,9 @@ class ProductController extends Controller
         try {
             $imageName = null;
             if ($request->hasFile('image')) {
-                $imageName = $request->file('image')->store('' ,'public');
+                $imageName = $request->file('image')->store('', 'public');
             }
-            Product::create([
+            $product = Product::create([
                 'name' => $request->name,
                 'barcode' => $request->barcode,
                 'image' => $imageName,
@@ -80,6 +105,18 @@ class ProductController extends Controller
                 'status' => 'active',
                 'expired' => $request->expired,
             ]);
+
+            if($product && filled('quantity') && request('quantity') > 0) {
+                Stock::create([
+                    'users_id' => Auth::check() ? Auth::id() : null,
+                    'products_id' => $product->id,
+                    'quantity' => $request->quantity,
+                    'cons_price' => $request->cons_price,
+                    'selling_price' => $request->selling_price,
+                ]);
+            }
+
+            
 
             return redirect()->route('products')->with('success', 'Product created successfully');
         } catch (\Exception $e) {
@@ -105,27 +142,41 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        try {
-            $product = Product::findOrFail($id);
-            if (!$product) {
-                return redirect()->back()->withErrors(['error' => 'Product not found.']);
-            }
+        try{
+            $stock = Stock::with('product')->findOrFail($id);
 
-            $product->update([
-                'name' => $request->name,
-                'barcode' => $request->barcode,
-                'image' => $request->file('image') ? $request->file('image')->store('products', 'public') : null,
-                'categories_id' => $request->categories_id,
-                'cons_price' => $request->cons_price,
-                'selling_price' => $request->selling_price,
-                'status' => 'active',
-                'expired' => $request->expired ? date('Y-m-d', strtotime($request->expired)) : null,
-            ]);
+        
+        if ($request->hasFile('image')) {
+            $imageName = $request->file('image')->store('products', 'public');
+        } else {
+            $imageName = $request->old_image;
+        }
 
-            return redirect()->route('products')->with('success', 'Product updated successfully');
+        
+        $stock->product->update([
+            'name' => $request->name,
+            'barcode' => $request->barcode,
+            'image' => $imageName,
+            'categories_id' => $request->categories_id,
+            'cons_price' => $request->cons_price,
+            'selling_price' => $request->selling_price,
+            'expired' => $request->expired,
+        ]);
+
+        // Update ke tabel stocks
+        $stock->update([
+            'users_id' => Auth::check() ? Auth::id() : null,
+            'products_id' => $stock->product->id,
+            'quantity' => $request->quantity,
+            'cons_price' => $request->cons_price,
+            'selling_price' => $request->selling_price,
+        ]);
+
+        return redirect()->route('products')->with('success', 'Product updated successfully');
         } catch (\Exception $e) {
             return redirect()->back()->withInput()->withErrors(['error' => 'Error: ' . $e->getMessage()]);
         }
+         
     }
 
     /**
@@ -134,7 +185,7 @@ class ProductController extends Controller
     public function destroy(string $id)
     {
         try {
-            $product = Product::findOrFail($id);
+            $product = Stock::findOrFail($id);
             if (!$product) {
                 return redirect()->back()->withErrors(['error' => 'Product not found.']);
             }

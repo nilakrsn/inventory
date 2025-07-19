@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('quantity');
             $table->enum('type', ['in', 'out']);
             $table->double('total_price');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

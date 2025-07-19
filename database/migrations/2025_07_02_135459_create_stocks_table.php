@@ -14,10 +14,11 @@ return new class extends Migration
         Schema::create('stocks', function (Blueprint $table) {
             $table->id();
             $table->foreignId('users_id')->constrained();
-            $table->foreignId('products_id')->constrained();
+            $table->foreignId('products_id')->constrained()->onDelete('cascade');
             $table->integer('quantity');
             $table->double('cons_price');
             $table->double('selling_price');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

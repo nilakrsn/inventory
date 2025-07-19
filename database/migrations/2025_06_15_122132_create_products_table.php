@@ -21,6 +21,7 @@ return new class extends Migration
             $table->double('selling_price');
             $table->enum('status',['active','non active']);
             $table->date('expired')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
