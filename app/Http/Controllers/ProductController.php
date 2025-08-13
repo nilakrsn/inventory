@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Stock;
+use App\Models\Transaction;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -32,6 +33,8 @@ class ProductController extends Controller
                 'stocks.id as stock_id',
                 'stocks.users_id',
                 'stocks.quantity',
+                'stocks.cons_price',
+                'stocks.selling_price',
                 'stocks.created_at as stock_created_at',
                 'products.id as product_id',
                 'products.name as product_name',
@@ -39,8 +42,6 @@ class ProductController extends Controller
                 'products.barcode',
                 'products.image',
                 'categories.name as category_name',
-                'products.cons_price',
-                'products.selling_price',
                 'products.status',
                 'products.expired'
 
@@ -66,8 +67,17 @@ class ProductController extends Controller
             $query->orderBy('stocks.created_at', $direction);
         } elseif ($sort === 'updated_at') {
             $query->orderBy('stocks.updated_at', $direction);
-        } elseif ($sort === 'name') {
+        } elseif ($sort === 'product_name') {
             $query->orderBy('products.name', $direction)->orderBy('products.barcode', $direction);
+        } elseif ($sort === 'categories') {
+            $query->orderBy('categories.name', $direction)->orderBy('products.name', $direction);
+        } elseif ($sort === 'quantity') {
+            $query->orderBy('stocks.quantity', $direction);
+        } elseif ($sort === 'cons_price') {
+            $query->orderBy('stocks.cons_price', $direction);
+        } elseif ($sort === 'selling_price') {
+            $query->orderBy('stocks.selling_price', $direction);
+
         } else {
             $query->orderBy('stocks.created_at', 'desc');
         }
@@ -107,14 +117,27 @@ class ProductController extends Controller
             ]);
 
             if($product && filled('quantity') && request('quantity') > 0) {
-                Stock::create([
+                $stock = Stock::create([
                     'users_id' => Auth::check() ? Auth::id() : null,
                     'products_id' => $product->id,
                     'quantity' => $request->quantity,
                     'cons_price' => $request->cons_price,
                     'selling_price' => $request->selling_price,
                 ]);
+
+                if($stock){
+                    Transaction::create([
+                        'users_id' => Auth::check() ? Auth::id() : null,
+                        'stock_id' => $stock->id,
+                        'quantity' => $request->quantity,
+                        'type' => 'in',
+                        'total_price' => $request->quantity * $request->cons_price,
+                    ]);
+
+                }
             }
+
+        
 
             
 
@@ -129,7 +152,14 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        //
+        try {
+            $categories = Category::all();
+
+            $stock = Stock::with('product')->findOrFail($id);
+            return view('product_detail', compact('stock', 'categories'));
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'Error: ' . $e->getMessage()]);
+        }
     }
 
     /**

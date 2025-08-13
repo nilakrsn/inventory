@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('stock_id')->constrained();
             $table->integer('quantity');
             $table->enum('type', ['in', 'out']);
-            $table->double('total_price');
+            $table->double('total_price')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

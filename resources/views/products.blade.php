@@ -33,14 +33,14 @@
                                         enctype="multipart/form-data">
                                         @csrf
                                         <div class="mb-4">
-                                            <label class="block text-sm text-gray-700 dark:text-gray-200">Nama</label>
+                                            <label class="block text-sm text-gray-700 dark:text-gray-200">Nama Produk</label>
                                             <input type="text" name="name" x-model="name"
                                                 class="mt-1 w-full rounded border-gray-300 dark:bg-gray-700 dark:text-white"
                                                 required @input="changed = name.trim().length > 0">
                                         </div>
                                         <div class="mb-4">
                                             <label
-                                                class="block text-sm text-gray-700 dark:text-gray-200">Barcode</label>
+                                                class="block text-sm text-gray-700 dark:text-gray-200">Kode Produk</label>
                                             <input type="number" name="barcode" x-model="barcode"
                                                 class="mt-1 w-full rounded border-gray-300 dark:bg-gray-700 dark:text-white">
                                         </div>
@@ -64,8 +64,8 @@
                                             </select>
                                         </div>
                                         <div class="mb-4">
-                                            <label class="block text-sm text-gray-700 dark:text-gray-200">Jumlah
-                                                stok</label>
+                                            <label class="block text-sm text-gray-700 dark:text-gray-200">Jumlah Stok
+                                                </label>
                                             <input type="number" name="quantity" x-model="quantity"
                                                 class="mt-1 w-full rounded border-gray-300 dark:bg-gray-700 dark:text-white"
                                                 required>
@@ -95,7 +95,7 @@
                                             <button type="button"
                                                 @click="$dispatch('close-modal', { name: 'create-product' })"
                                                 class="mr-2 px-4 py-2 text-sm bg-gray-200 rounded">
-                                                Cancel
+                                                Batal
                                             </button>
                                             <button type="submit"
                                                 class="px-4 py-2 text-sm bg-sky-900 text-white rounded"
@@ -125,7 +125,6 @@
                                     <th class="p-4 border-b ">
                                         <div class="flex items-center space-x-1 justify-center">
                                             <p class="text-sm leading-none font-semibold">Gambar</p>
-                                            <x-sort-filter sort="image" />
                                         </div>
                                     </th>
                                     <th class="p-4 border-b ">
@@ -202,7 +201,7 @@
                                             </p>
                                         </td>
                                         <td class="p-4 py-5">
-                                            <p class="text-sm text-slate-500">{{ $data->product_name }}</p>
+                                            <p class="text-sm text-slate-500 ">{{ $data->product_name }}</p>
                                         </td>
 
                                         <td class="p-4 py-5">
@@ -232,6 +231,10 @@
                                                     </x-slot>
                                                     <x-slot name="content">
                                                         <x-dropdown-link
+                                                            href="{{ route('products.show', $data->stock_id) }}">
+                                                            {{ __('Detail') }}
+                                                        </x-dropdown-link>
+                                                        <x-dropdown-link
                                                             @click="$dispatch('open-modal', { name: 'update-product-{{ $data->stock_id }}' })">
                                                             {{ __('Edit') }}
                                                         </x-dropdown-link>
@@ -239,6 +242,7 @@
                                                             @click="$dispatch('open-modal', { name: 'delete-product-{{ $data->stock_id }}' })">
                                                             {{ __('Hapus') }}
                                                         </x-dropdown-link>
+                                                        
                                                     </x-slot>
                                                 </x-dropdown>
                                             </div>
@@ -328,7 +332,7 @@
                                         <button type="button"
                                             @click="$dispatch('close-modal', { name: 'update-product-{{ $data->stock_id }}' })"
                                             class="mr-2 px-4 py-2 text-sm bg-gray-200 rounded">
-                                            Cancel
+                                            Batal
                                         </button>
                                         <button type="submit" class="px-4 py-2 text-sm bg-sky-900 text-white rounded"
                                             :disabled="!changed"
