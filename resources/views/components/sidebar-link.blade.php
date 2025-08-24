@@ -2,8 +2,8 @@
 
 @php
 $classes = ($active ?? false)
-    ? 'flex items-center p-3 mb-1 bg-sky-800 rounded-lg relative text-white font-semibold text-base'
-    : 'flex items-center p-3 mb-1 text-sky-800 text-base';
+    ? 'flex items-center p-3 mb-1 bg-slate-800 rounded-md relative text-white font-semibold text-base'
+    : 'flex items-center p-3 mb-1 text-gray-300 text-base';
 
 $iconName = $attributes->get('icon');
 $iconType = ($active ?? false) ? $iconName : $iconName . '-outline';

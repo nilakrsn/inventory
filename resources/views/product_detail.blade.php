@@ -11,14 +11,15 @@
                 <div class="flex flex-col">
                     <div>
                         <label for="image" class="cursor-pointer inline-block">
-                            <img id="previewImage" src="{{ $stock->product && $stock->product->image
-                                ? asset('storage/' . $stock->product->image)
-                                : asset('images/no-image.png') }}"
+                            <img id="previewImage"
+                                src="{{ $stock->product && $stock->product->image
+                                    ? asset('storage/' . $stock->product->image)
+                                    : asset('images/no-image.png') }}"
                                 class="w-80 h-96 object-contain rounded-lg bg-gray-100 p-3"
                                 alt="{{ $stock->product->name ?? 'Gambar Produk' }}">
                         </label>
 
-                        <input type="file" id="image" name="image" class="hidden" accept="image/*" 
+                        <input type="file" id="image" name="image" class="hidden" accept="image/*"
                             onchange="previewFile(event)">
 
 
@@ -68,11 +69,23 @@
                             </select>
                         </div>
                         <div class="flex flex-col w-full">
-                            <label class="block text-sm text-gray-700 dark:text-gray-200">Jumlah Stok</label>
-                            <input type="number" name="quantity"
-                                class="mt-1 w-full rounded border-gray-300 dark:bg-gray-700 dark:text-white"
-                                @input="changed = quantity.trim().length > 0" value="{{ $stock->quantity }}">
+                            <div class="flex flex-row space-x-4">
+                                <div class="flex flex-col w-full">
+                                <label class="block text-sm text-gray-700 dark:text-gray-200">Status</label>
+                                <input type="text" name="status"
+                                    class="mt-1 w-full rounded border-gray-300 dark:bg-gray-700 dark:text-white"
+                                    @input="changed = status.trim().length > 0" value="{{ $stock->product->status }}">
 
+                            </div>
+                            <div class="flex flex-col w-1/5">
+                                <label class="block text-sm text-gray-700 dark:text-gray-200">Stok</label>
+                                <input type="number" name="quantity"
+                                    class="mt-1 w-full rounded border-gray-300 dark:bg-gray-700 dark:text-white"
+                                    @input="changed = quantity.trim().length > 0" value="{{ $stock->quantity }}">
+
+                            </div>
+
+                            </div>
                         </div>
 
                     </div>
@@ -112,11 +125,13 @@
 
                         </div>
 
+
                     </div>
 
                     <div class="flex flex-row w-full space-x-4">
                         <div class="flex flex-col w-full">
-                            <button type="button" class="py-3 text-md border-2 border-sky-900  text-sky-900 rounded" @click="$dispatch('open-modal', { name: 'delete-product-{{ $stock->id }}' })">
+                            <button type="button" class="py-3 text-md border-2 border-sky-900  text-sky-900 rounded"
+                                @click="$dispatch('open-modal', { name: 'delete-product-{{ $stock->id }}' })">
                                 Hapus
                             </button>
                         </div>
@@ -164,3 +179,4 @@
 
     <x-toast> </x-toast>
 </x-app-layout>
+
