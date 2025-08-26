@@ -3,7 +3,7 @@
 
 
 <div class="mb-4">
-    <label class="block text-sm text-gray-300">{{ $label }}</label>
+    <label class="block md:text-sm lg:text-base text-gray-300">{{ $label }}</label>
     <input 
         type="{{ $type }}" 
         name="{{ $name }}" 

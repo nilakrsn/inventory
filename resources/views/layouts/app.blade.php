@@ -11,26 +11,35 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
-   
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+        rel="stylesheet">
+
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <script src="//unpkg.com/alpinejs" defer></script>
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-   
+
 </head>
 
 <body class="font-sans antialiased bg-slate-900">
-    @include('layouts.sidebar')
-    <div class="ml-64 min-h-screen ">
-        <!-- Page Content -->
-        <main class="flex-1 ">
+    <div class="h-min-screen flex flex-row">
+        <div class="flex flex-col w-1/6">
+            @include('layouts.sidebar')
+        </div>
+        <main class="flex flex-col w-5/6 min-h-screen">
             @include('layouts.navigation')
-            <div class="p-6 overflow-x-auto"> 
+
+            <div class="p-6 overflow-x-auto">
                 {{ $slot }}
+                  <x-toast> </x-toast>
             </div>
+            
+
         </main>
+    </div>
+
     </div>
 </body>
 

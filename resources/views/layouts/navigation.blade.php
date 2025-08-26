@@ -1,8 +1,8 @@
-<nav class="ml-6 border-b border-slate-800 ">
-    <div class="flex flex-row h-16 justify-between items-center bg-slate-900 ">
+<nav class="border-b border-slate-800 z-10">
+    <div class="flex flex-row md:h-16 lg:h-20 justify-between items-center ">
 
 
-        <div class="px-6 font-semibold text-lg text-gray-300 flex items-center gap-2">
+        <div class="px-6 font-semibold md:text-lg lg:text-2xl text-gray-300 flex items-center gap-2">
             @php
                 $titles = [
                     'dashboard' => 'Dashboard',

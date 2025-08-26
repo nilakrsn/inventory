@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div x-data class="px-6">
+    <div x-data>
         <div class="p-6 bg-slate-800 rounded-lg">
             <div class="relative flex flex-col w-full text-gray-700  rounded-lg bg-clip-border">
                 <div class="flex flex-row justify-between items-center mb-4">
@@ -26,15 +26,14 @@
                         expired: '',
                         quantity: ''
                     }">
-                        <h2 class ="text-lg font-semibold mb-4 text-white ">
+                        <h2 class ="md:text-lg lg:text-xl font-semibold mb-4 text-white ">
                             Tambah Produk</h2>
                         <form method="POST" action="{{ route('products.store') }}" enctype="multipart/form-data">
                             @csrf
                             <x-input label="Nama Produk" name="name" model="name" required />
                             <x-input label="Kode Produk" name="barcode" model="barcode" />
-                            <x-input label="Gambar Produk" name="image" type="file" accept="image/*" />
                             <div class="mb-4">
-                                <label class="block text-sm text-gray-300">Kategori</label>
+                                <label class="block md:text-sm lg:text-base text-gray-300">Kategori</label>
                                 <select name="categories_id" x-model="categories_id"
                                     class="mt-1 w-full rounded border-slate-700 bg-slate-700 focus:outline-none focus:ring focus:ring-slate-600 text-gray-300 ">
                                     <option value="">Pilih Kategori</option>
@@ -48,7 +47,7 @@
                             <x-input label="Harga Modal" name="cons_price" model="cons_price" type="number" />
                             <x-input label="Harga Jual" name="selling_price" model="selling_price" type="number" />
                             <x-input label="Tanggal Kadaluarsa" name="expired" model="expired" type="date" />
-
+                            <x-input label="Gambar Produk" name="image" type="file" accept="image/*" />
                             <div class="flex justify-end">
                                 <x-form-buttons cancelTarget="create-product" submitText="Simpan" cancelText="Batal" />
 
@@ -57,61 +56,61 @@
                     </div>
                 </x-modal>
 
-                <table class="w-full text-center table-auto min-w-max ">
-                    <thead class="bg-slate-700 text-gray-300 ">
+                <table class="w-full text-center table-auto min-w-max bg-slate-700 text-gray-300 ">
+                    <thead class="md:text-sm lg:text-base font-semibold leading-none">
                         <tr>
-                            <th class="p-4">
-                                <div class="flex items-center space-x-1 justify-center">
-                                    <p class="text-sm font-semibold leading-none">No</p>
+                            <th>
+                                <div class="flex items-center space-x-1 justify-center p-4">
+                                    <p>No</p>
                                     <x-sort-filter sort="no" />
                                 </div>
                             </th>
-                            <th class="p-4 ">
-                                <div class="flex items-center space-x-1 justify-center">
-                                    <p class="text-sm leading-none font-semibold">Gambar</p>
+                            <th>
+                                <div class="flex items-center space-x-1 justify-center p-4">
+                                    <p>Gambar</p>
                                 </div>
                             </th>
-                            <th class="p-4 ">
-                                <div class="flex items-center space-x-1 justify-center">
-                                    <p class="text-sm leading-none font-semibold">Tanggal</p>
+                            <th>
+                                <div class="flex items-center space-x-1 justify-center p-4">
+                                    <p>Tanggal</p>
                                     <x-sort-filter sort="stock_created_at" />
                                 </div>
                             </th>
 
-                            <th class="p-4 ">
-                                <div class="flex items-center space-x-1 justify-center">
-                                    <p class="text-sm leading-none font-semibold">Nama</p>
+                            <th>
+                                <div class="flex items-center space-x-1 justify-center p-4">
+                                    <p>Nama</p>
                                     <x-sort-filter sort="product_name" />
                                 </div>
                             </th>
-                            <th class="p-4 ">
-                                <div class="flex items-center space-x-1 justify-center">
-                                    <p class="text-sm leading-none font-semibold">Kategori</p>
+                            <th>
+                                <div class="flex items-center space-x-1 justify-center p-4">
+                                    <p>Kategori</p>
                                     <x-sort-filter sort="categories" />
                                 </div>
                             </th>
-                            <th class="p-4 ">
-                                <div class="flex items-center space-x-1 justify-center">
-                                    <p class="text-sm leading-none font-semibold">Jumlah</p>
+                            <th>
+                                <div class="flex items-center space-x-1 justify-center p-4">
+                                    <p>Jumlah</p>
                                     <x-sort-filter sort="quantity" />
                                 </div>
                             </th>
 
-                            <th class="p-4 ">
-                                <div class="flex items-center space-x-1 justify-center">
-                                    <p class="text-sm leading-none font-semibold">Harga Modal</p>
+                            <th>
+                                <div class="flex items-center space-x-1 justify-center p-4">
+                                    <p>Harga Modal</p>
                                     <x-sort-filter sort="cons_price" />
                                 </div>
                             </th>
-                            <th class="p-4 ">
-                                <div class="flex items-center space-x-1 justify-center">
-                                    <p class="text-sm leading-none font-semibold">Harga Jual</p>
+                            <th>
+                                <div class="flex items-center space-x-1 justify-center p-4">
+                                    <p>Harga Jual</p>
                                     <x-sort-filter sort="selling_price" />
                                 </div>
                             </th>
-                            <th class="p-4 ">
-                                <div class="flex items-center space-x-1 justify-center">
-                                    <p class="text-sm leading-none font-semibold">Status</p>
+                            <th>
+                                <div class="flex items-center space-x-1 justify-center p-4">
+                                    <p>Status</p>
                                     <x-sort-filter sort="status" />
                                 </div>
                             </th>
@@ -119,17 +118,18 @@
 
                             <th class="p-4">
                                 <div class="flex items-center space-x-1">
-                                    <p class="text-sm leading-none font-semibold">Action</p>
+                                    <p>Action</p>
                                 </div>
                             </th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($products as $data)
-                            <tr class="bg-slate-800 text-gray-300">
+                            <tr
+                                class="border-b border-slate-600 bg-slate-800 text-gray-300 font-semibold md:text-sm lg:text-base">
 
                                 <td class="p-4 py-5">
-                                    <p class="block font-semibold text-sm ">
+                                    <p>
                                         {{ ($products->currentPage() - 1) * $products->perPage() + $loop->iteration }}
                                     </p>
                                 </td>
@@ -138,35 +138,35 @@
                                         class="h-16 mx-auto">
                                 </td>
                                 <td>
-                                    <p class="text-sm">
+                                    <p>
                                         {{ \Carbon\Carbon::parse($data->stock_created_at)->format('d-m-Y') }}
                                     </p>
                                 </td>
                                 <td class="p-4 py-5">
-                                    <p class="text-sm ">{{ $data->product_name }}</p>
+                                    <p class="md:text-sm lg:text-base ">{{ $data->product_name }}</p>
                                 </td>
 
                                 <td class="p-4 py-5">
-                                    <p class="text-sm">{{ $data->category_name ?? '-' }}</p>
+                                    <p>{{ $data->category_name ?? '-' }}</p>
                                 </td>
                                 <td class="p-4 py-5">
-                                    <p class="text-sm">{{ $data->quantity }}</p>
+                                    <p>{{ $data->quantity }}</p>
                                 </td>
                                 <td class="p-4 py-5">
-                                    <p class="text-sm">{{ $data->cons_price }}</p>
+                                    <p>{{ $data->cons_price }}</p>
                                 </td>
                                 <td class="p-4 py-5">
-                                    <p class="text-sm">{{ $data->selling_price }}</p>
+                                    <p>{{ $data->selling_price }}</p>
                                 </td>
                                 <td class="p-4 py-5">
-                                    <p class="text-sm">{{ $data->status }}</p>
+                                    <p>{{ $data->status }}</p>
                                 </td>
                                 <td>
                                     <div class="flex flex-row space-x-1">
                                         <x-dropdown align="right" width="48">
                                             <x-slot name="trigger">
                                                 <button
-                                                    class="inline-flex items-center px-3 py-2 border border-transparent text-base leading-4 font-medium rounded-md  hover:bg-slate-600 text-gray-400 focus:outline-none transition ease-in-out duration-150">
+                                                    class="inline-flex items-center px-3 py-2 border border-transparent md:text-base lg:text-xl leading-4 font-medium rounded-md  hover:bg-slate-600 text-gray-400 focus:outline-none transition ease-in-out duration-150">
                                                     <ion-icon name="ellipsis-horizontal"></ion-icon>
 
                                                 </button>
@@ -192,37 +192,19 @@
                             <!-- update modal -->
                             <x-modal name="update-product-{{ $data->stock_id }}" :show="false">
                                 <div class="p-6 text-left" x-data="{ changed: false, name: '{{ $data->product_name }}', barcode: '{{ $data->barcode }}', cons_price: '{{ $data->cons_price }}', selling_price: '{{ $data->selling_price }}', expired: '{{ $data->expired }}', categories_id: '{{ $data->categories_id }}', image: null, quantity: '{{ $data->quantity }}' }">
-                                    <h2 class="text-lg font-semibold mb-4 text-gray-300 text-left">
+                                    <h2 class="md:text-lg lg:text-xl font-semibold mb-4 text-gray-300 text-left">
                                         Edit Produk
                                     </h2>
                                     <form method="POST" action="{{ route('products.update', $data->stock_id) }}"
                                         enctype="multipart/form-data">
                                         @csrf
                                         @method('PUT')
-                                        <x-input label="Nama Produk" name="name" model="name" required />
-                                        <x-input label="Kode Produk" name="barcode" model="barcode" />
-                                        <x-input label="Gambar Produk" name="image" type="file"
-                                            accept="image/*" />
-                                        
+                                        <x-input label="Nama Produk" name="name" model="name" @input="changed = name.trim().length > 0" />
+                                        <x-input label="Kode Produk" name="barcode" model="barcode" @input="changed = barcode.trim().length > 0"/>
                                         <div class="mb-4">
-                                            <label class="block text-sm text-gray-700 dark:text-gray-200">Gambar
-                                                Produk</label>
-                                            <input type="file" name="image"
-                                                class="mt-1 w-full rounded border-gray-300 dark:bg-gray-700 dark:text-white"
-                                                accept="image/*">
-                                            <input type="hidden" name="old_image" value="{{ $data->image }}">
-                                            @if ($data->image)
-                                                <div class="mt-2">
-                                                    <img src="{{ asset('storage/' . $data->image) }}"
-                                                        alt="Gambar Produk" class="h-16">
-                                                </div>
-                                            @endif
-                                        </div>
-                                        <div class="mb-4">
-                                            <label
-                                                class="block text-sm text-gray-700 dark:text-gray-200">Kategori</label>
+                                            <label class="block md:text-sm lg:text-base text-gray-300">Kategori</label>
                                             <select name="categories_id" x-model="categories_id"
-                                                class="mt-1 w-full rounded border-gray-300 dark:bg-gray-700 dark:text-white"
+                                                class="mt-1 w-full rounded border-slate-700 bg-slate-700 focus:outline-none focus:ring focus:ring-slate-600 text-gray-300"
                                                 @input="changed = categories_id.trim().length > 0">
                                                 <option value="">Pilih Kategori</option>
                                                 @foreach ($categories as $category)
@@ -232,42 +214,36 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <div class="mb-4">
-                                            <label class="block text-sm text-gray-700 dark:text-gray-200">Jumlah
-                                                stok</label>
-                                            <input type="number" name="quantity" x-model="quantity"
-                                                class="mt-1 w-full rounded border-gray-300 dark:bg-gray-700 dark:text-white"
-                                                @input="changed = quantity.trim().length > 0">
-                                        </div>
+                                        <x-input label="Jumlah Produk" name="quantity" model="quantity"
+                                            type="number" @input="changed = quantity.trim().length > 0" />
+                                        <x-input label="Harga Modal" name="cons_price" model="cons_price"
+                                            type="number" @input="changed = cons_price.trim().length > 0"/>
+                                        <x-input label="Harga Jual" name="selling_price" model="selling_price"
+                                            type="number" @input="changed = selling_price.trim().length > 0"/>
+                                        <x-input label="Tanggal Kadaluarsa" name="expired" model="expired"
+                                            type="date" @input="changed = expired.trim().length > 0"/>
+                                        @if ($data->image)
+                                            <div class="bg-slate-600 p-2 rounded-lg">
 
-                                        <div class="mb-4">
-                                            <label class="block text-sm text-gray-700 dark:text-gray-200">Harga
-                                                Modal</label>
-                                            <input type="number" name="cons_price" x-model="cons_price"
-                                                class="mt-1 w-full rounded border-gray-300 dark:bg-gray-700 dark:text-white"
-                                                @input="changed = cons_price.trim().length > 0">
-                                        </div>
-                                        <div class="mb-4">
-                                            <label class="block text-sm text-gray-700 dark:text-gray-200">Harga
-                                                Jual</label>
-                                            <input type="number" name="selling_price" x-model="selling_price"
-                                                class="mt-1 w-full rounded border-gray-300 dark:bg-gray-700 dark:text-white"
-                                                @input="changed = selling_price.trim().length > 0">
-                                        </div>
-                                        <div class="mb-4">
-                                            <label class="block text-sm text-gray-700 dark:text-gray-200">Tanggal
-                                                Kadaluarsa</label>
-                                            <input type="date" name="expired" x-model="expired"
-                                                class="mt-1 w-full rounded border-gray-300 dark:bg-gray-700 dark:text-white">
-                                        </div>
+                                                <img src="{{ asset('storage/' . $data->image) }}" alt="Gambar Produk"
+                                                    class="h-40 mx-auto">
+                                            </div>
+                                            <span class="text-xs text-red-500 italic">Biarkan kosong jika tidak
+                                                diubah</span>
+                                        @endif
+
+
+                                        <x-input label="Gambar Produk" name="image" type="file"
+                                            accept="image/*" @change="image = $event.target.files[0]; changed = true"/>
+                                        <input type="hidden" name="old_image" value="{{ $data->image }}">
                                         <div class="flex justify-end">
                                             <button type="button"
                                                 @click="$dispatch('close-modal', { name: 'update-product-{{ $data->stock_id }}' })"
-                                                class="mr-2 px-4 py-2 text-sm bg-gray-200 rounded">
+                                                class="mr-2 px-4 py-2 md:text-sm lg:text-base bg-gray-200 rounded">
                                                 Batal
                                             </button>
                                             <button type="submit"
-                                                class="px-4 py-2 text-sm bg-sky-900 text-white rounded"
+                                                class="px-4 py-2 md:text-sm lg:text-base bg-sky-900 text-white rounded"
                                                 :disabled="!changed"
                                                 :class="{ 'opacity-50 cursor-not-allowed': !changed }">
                                                 Submit
@@ -279,24 +255,26 @@
                             <!-- delete modal -->
                             <x-modal name="delete-product-{{ $data->stock_id }}" :show="false">
                                 <div class="p-6" x-data>
-                                    <h2 class="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-100 text-left">
+                                    <h2
+                                        class="md:text-lg lg:text-xl font-semibold mb-4 text-gray-800 dark:text-gray-100 text-left">
                                         Hapus Produk
                                     </h2>
                                     <form method="POST" action="{{ route('products.destroy', $data->stock_id) }}">
                                         @csrf
                                         @method('DELETE')
                                         <input type="hidden" name="stock_id" value="{{ $data->stock_id }}">
-                                        <p class="text-sm text-gray-300  mb-6 text-left">
+                                        <p class="md:text-sm lg:text-base text-gray-300  mb-6 text-left">
                                             Apa Anda yakin ingin menghapus produk
                                             "{{ $data->product_name }}"?
                                         </p>
                                         <div class="flex justify-end">
-                                            <button type="button" class="mr-2 px-4 py-2 text-sm bg-gray-200 rounded"
+                                            <button type="button"
+                                                class="mr-2 px-4 py-2 md:text-sm lg:text-base bg-gray-200 rounded"
                                                 @click="$dispatch('close-modal', { name: 'delete-product-{{ $data->stock_id }}' })">
                                                 Tidak, Batalkan
                                             </button>
                                             <button type="submit"
-                                                class="px-4 py-2 text-sm bg-sky-700 text-gray-300 rounded">
+                                                class="px-4 py-2 md:text-sm lg:text-base bg-sky-700 text-gray-300 rounded">
                                                 Ya, Hapus
                                             </button>
                                         </div>
@@ -308,12 +286,44 @@
 
                     </tbody>
                 </table>
+                <div class="flex justify-between items-center px-4 py-3 md:text-sm lg:text-base text-gray-300"">
+                    <div>
+                        Showing <b>{{ $products->firstItem() }}-{{ $products->lastItem() }}</b> of
+                        {{ $products->total() }}
+                    </div>
+                    <div class="flex space-x-1">
+                        {{-- Previous Button --}}
+                        <button
+                            class="px-3 py-1 min-w-9 min-h-9  bg-white border border-slate-200 text-slate-600 rounded hover:bg-slate-50 hover:border-slate-400 transition duration-200 ease {{ $products->onFirstPage() ? 'opacity-50 cursor-not-allowed' : '' }}"
+                            @if (!$products->onFirstPage()) onclick="window.location='{{ $products->previousPageUrl() }}'" @endif
+                            {{ $products->onFirstPage() ? 'disabled' : '' }}>
+                            Prev
+                        </button>
+
+                        {{-- Page Numbers --}}
+                        @foreach ($products->getUrlRange(1, $products->lastPage()) as $page => $url)
+                            <button
+                                class="px-3 py-1 min-w-9 min-h-9 {{ $products->currentPage() == $page ? 'text-white bg-sky-900 border-sky-900' : 'text-sky-700 bg-white border-sky-700' }} border rounded hover:bg-slate-200 hover:border-sky-700 transition duration-200 ease"
+                                @if ($products->currentPage() != $page) onclick="window.location='{{ $url }}'" @endif
+                                {{ $products->currentPage() == $page ? 'disabled' : '' }}>
+                                {{ $page }}
+                            </button>
+                        @endforeach
+
+                        {{-- Next Button --}}
+                        <button
+                            class="px-3 py-1 min-w-9 min-h-9  bg-white border border-slate-200 text-slate-600 rounded hover:bg-slate-50 hover:border-slate-400 transition duration-200 ease {{ !$products->hasMorePages() ? 'opacity-50 cursor-not-allowed' : '' }}"
+                            @if ($products->hasMorePages()) onclick="window.location='{{ $products->nextPageUrl() }}'" @endif
+                            {{ !$products->hasMorePages() ? 'disabled' : '' }}>
+                            Next
+                        </button>
+                    </div>
+
+                </div>
+
 
             </div>
 
-
         </div>
-
-    </div>
-    <x-toast></x-toast>
+        <x-toast></x-toast>
 </x-app-layout>

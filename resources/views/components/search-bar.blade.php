@@ -7,6 +7,6 @@
         </svg>
     </span>
     <input type="text" name="query" placeholder="Search..."
-        class="flex-1 w-60 pl-10 pr-3 py-3 border border-slate-700 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-slate-600 text-sm bg-slate-700 text-gray-300 placeholder-gray-300"
+        class="flex-1 w-60 pl-10 pr-3 py-3 border border-slate-700 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-slate-600 md:text-sm lg:text-base bg-slate-700 text-gray-300 placeholder-gray-300"
         value="{{ request('query') }}">
 </form>

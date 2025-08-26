@@ -10,7 +10,7 @@
         <input
             type="date"
             name="start_date"
-            class="border border-slate-700 bg-slate-700 rounded-md px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-slate-600 w-full md:w-auto text-gray-300 placeholder-gray-300"
+            class="border border-slate-700 bg-slate-700 rounded-md px-4 py-3 md:text-sm lg:text-base focus:outline-none focus:ring-2 focus:ring-slate-600 w-full md:w-auto text-gray-300 placeholder-gray-300"
             value="{{ $startDate }}"
             placeholder="Start date"
         >
@@ -19,7 +19,7 @@
             type="date"
             name="end_date"
             id="end_date"
-            class="border border-slate-700 bg-slate-700 rounded-md px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-slate-600 w-full md:w-auto text-gray-300 placeholder-gray-300"
+            class="border border-slate-700 bg-slate-700 rounded-md px-4 py-3 md:text-sm lg:text-base focus:outline-none focus:ring-2 focus:ring-slate-600 w-full md:w-auto text-gray-300 placeholder-gray-300"
             value="{{ $endDate }}"
             placeholder="End date"
         >
@@ -36,7 +36,7 @@
                 });
             });
         </script>
-        <a href="{{ url()->current() }}" class="inline-flex items-center px-3 py-3 border border-slate-700 bg-slate-700 rounded-md text-gray-300 text-sm hover:bg-slate-600 hover:text-gray-300 transition">
+        <a href="{{ url()->current() }}" class="inline-flex items-center px-3 py-3 border border-slate-700 bg-slate-700 rounded-md text-gray-300 md:text-sm lg:text-base hover:bg-slate-600 hover:text-gray-300 transition">
             <ion-icon name="refresh-outline" class="w-5 h-5"></ion-icon>
         </a>
     </div>

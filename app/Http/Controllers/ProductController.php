@@ -35,7 +35,7 @@ class ProductController extends Controller
                 'stocks.quantity',
                 'stocks.cons_price',
                 'stocks.selling_price',
-                'stocks.created_at as stock_created_at',
+                'products.created_at as stock_created_at',
                 'products.id as product_id',
                 'products.name as product_name',
                 'products.categories_id',
@@ -48,10 +48,10 @@ class ProductController extends Controller
             );
 
         if ($startDate) {
-            $query->whereDate('stocks.created_at', '>=', $startDate);
+            $query->whereDate('products.created_at', '>=', $startDate);
         }
         if ($endDate) {
-            $query->whereDate('stocks.created_at', '<=', $endDate);
+            $query->whereDate('products.created_at', '<=', $endDate);
         }
         if ($queryText) {
             $query->where(function ($q) use ($queryText) {
